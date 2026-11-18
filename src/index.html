@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHAE — Logo Turtle Drawing</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐢</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-wrapper">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="brand-section">
+                <span class="brand-badge">SHAE</span>
+                <h1 class="brand-title">Logo Turtle Drawing</h1>
+            </div>
+            <div class="header-meta">
+                <span class="meta-item">RUNTIME: LOGO TURTLE</span>
+                <span class="meta-item meta-accent">CANVAS: HTML5 2D</span>
+            </div>
+        </header>
+
+        <!-- Main Workspace -->
+        <main class="main-workspace">
+            <!-- Left: Canvas & Controls -->
+            <section class="canvas-panel" aria-label="Turtle Canvas">
+                <div class="panel-header">
+                    <span class="panel-title">Turtle Canvas</span>
+                    <div class="panel-actions">
+                        <button class="btn btn-small" id="btn-home" type="button" title="Return turtle to center">HOME</button>
+                        <button class="btn btn-small btn-accent" id="btn-clear" type="button" title="Clear canvas">CLEAR</button>
+                    </div>
+                </div>
+
+                <div class="canvas-container">
+                    <canvas id="turtle-canvas" width="640" height="480" aria-label="Turtle drawing canvas"></canvas>
+                    <div class="canvas-overlay" id="canvas-overlay" aria-hidden="true">
+                        <span class="overlay-turtle">🐢</span>
+                    </div>
+                </div>
+
+                <!-- State Display -->
+                <div class="state-bar" role="status" aria-live="polite">
+                    <div class="state-item">
+                        <span class="state-label">X</span>
+                        <span class="state-value" id="state-x">0</span>
+                    </div>
+                    <div class="state-item">
+                        <span class="state-label">Y</span>
+                        <span class="state-value" id="state-y">0</span>
+                    </div>
+                    <div class="state-item">
+                        <span class="state-label">HEADING</span>
+                        <span class="state-value" id="state-heading">0°</span>
+                    </div>
+                    <div class="state-item">
+                        <span class="state-label">PEN</span>
+                        <span class="state-value" id="state-pen">DOWN</span>
+                    </div>
+                    <div class="state-item">
+                        <span class="state-label">DISTANCE</span>
+                        <span class="state-value" id="state-distance">0</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Right: Command Input & Reference -->
+            <aside class="command-panel" aria-label="Command Input">
+                <div class="panel-header">
+                    <span class="panel-title">Command Input</span>
+                    <button class="btn btn-small" id="btn-reset" type="button" title="Reset turtle state">RESET</button>
+                </div>
+
+                <div class="command-input-area">
+                    <label for="command-input" class="sr-only">Enter Logo commands</label>
+                    <textarea
+                        id="command-input"
+                        class="command-input"
+                        placeholder="FORWARD 100&#10;RIGHT 90&#10;REPEAT 4 [FORWARD 100 RIGHT 90]"
+                        spellcheck="false"
+                        aria-describedby="command-help"
+                    ></textarea>
+                    <div class="command-help" id="command-help">
+                        <span class="help-hint">Enter one command per line, or use REPEAT n [commands]</span>
+                    </div>
+                </div>
+
+                <div class="command-actions">
+                    <button class="btn btn-primary" id="btn-run" type="button">
+                        <span class="btn-icon">▶</span> RUN
+                    </button>
+                    <button class="btn btn-secondary" id="btn-step" type="button">
+                        <span class="btn-icon">⏭</span> STEP
+                    </button>
+                    <button class="btn btn-secondary" id="btn-clear-input" type="button">
+                        <span class="btn-icon">✕</span> CLEAR
+                    </button>
+                </div>
+
+                <!-- Command Reference -->
+                <div class="reference-panel">
+                    <h2 class="reference-title">Command Reference</h2>
+                    <dl class="command-list">
+                        <div class="command-item">
+                            <dt class="command-syntax">FORWARD n</dt>
+                            <dd class="command-desc">Move turtle forward n pixels</dd>
+                        </div>
+                        <div class="command-item">
+                            <dt class="command-syntax">BACK n</dt>
+                            <dd class="command-desc">Move turtle backward n pixels</dd>
+                        </div>
+                        <div class="command-item">
+                            <dt class="command-syntax">LEFT deg</dt>
+                            <dd class="command-desc">Turn turtle left by deg degrees</dd>
+                        </div>
+                        <div class="command-item">
+                            <dt class="command-syntax">RIGHT deg</dt>
+                            <dd class="command-desc">Turn turtle right by deg degrees</dd>
+                        </div>
+                        <div class="command-item">
+                            <dt class="command-syntax">PENUP</dt>
+                            <dd class="command-desc">Lift pen (move without drawing)</dd>
+                        </div>
+                        <div class="command-item">
+                            <dt class="command-syntax">PENDOWN</dt>
+                            <dd class="command-desc">Lower pen (draw while moving)</dd>
+                        </div>
+                        <div class="command-item">
+                            <dt class="command-syntax">HOME</dt>
+                            <dd class="command-desc">Return turtle to center, heading 0°</dd>
+                        </div>
+                        <div class="command-item">
+                            <dt class="command-syntax">CLEAR</dt>
+                            <dd class="command-desc">Clear canvas, reset turtle to home</dd>
+                        </div>
+                        <div class="command-item">
+                            <dt class="command-syntax">REPEAT n [commands]</dt>
+                            <dd class="command-desc">Execute commands n times</dd>
+                        </div>
+                    </dl>
+                </div>
+
+                <!-- Examples -->
+                <div class="examples-panel">
+                    <h2 class="reference-title">Examples</h2>
+                    <div class="example-buttons">
+                        <button class="btn btn-example" type="button" data-example="square">Square</button>
+                        <button class="btn btn-example" type="button" data-example="triangle">Triangle</button>
+                        <button class="btn btn-example" type="button" data-example="spiral">Spiral</button>
+                        <button class="btn btn-example" type="button" data-example="star">Star</button>
+                    </div>
+                </div>
+            </aside>
+        </main>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <div>SHAE Logo Turtle Drawing :: v1.0.0 :: MIT License</div>
+            <div class="footer-links">
+                <a class="footer-link" href="https://github.com/spdedsec/shae-logo-turtle-drawing" target="_blank" rel="noopener">GitHub Repository</a>
+                <a class="footer-link" href="DESIGN.md">Design System</a>
+            </div>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+name: Create GitHub Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (e.g. v1.0.0)'
+        required: true
+        type: string
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  release:
+    name: Build and Create Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: |
+          npm install || true
+
+      - name: Run test suite
+        run: |
+          make test
+
+      - name: Build distribution packages
+        run: |
+          make build
+
+      - name: Get version from tag or input
+        id: version
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "VERSION=${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
+          else
+            VERSION=${GITHUB_REF#refs/tags/}
+            echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+          fi
+          echo "Using version: $(cat $GITHUB_OUTPUT | grep VERSION)"
+
+      - name: Create GitHub Release
+        id: create_release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.version.outputs.VERSION }}
+          name: SHAE Logo Turtle Drawing ${{ steps.version.outputs.VERSION }}
+          body: |
+            ## SHAE Logo Turtle Drawing
+
+            **Version:** `${{ steps.version.outputs.VERSION }}`
+            **Platform:** Web Browser
+            **Design System:** SHAE Field Manual
+
+            ### Features
+            - Interactive Logo turtle graphics with commands: FORWARD, BACK, LEFT, RIGHT, PENUP, PENDOWN, HOME, CLEAR, REPEAT
+            - Warm paper (#F2EEE5) / ink (#191712) / oxide (#B3341B) SHAE aesthetic
+            - Flat design: 0px radius, 1px borders, border-defined cards
+            - Typography: Archivo / Instrument Sans / JetBrains Mono
+            - Motion: 140–240ms state changes, reduced-motion fallbacks
+            - WCAG AA contrast, keyboard navigation, oxide focus rings
+            - State display: coordinates, heading, pen state, distance traveled
+            - Example buttons: square, triangle, spiral, star
+
+            ### Installation
+            1. **Web App**: Open `src/index.html` in browser or run `make dev`
+            2. **Desktop**: Use `./scripts/install.sh` for browser launch
+            3. **Live Demo**: Available via GitHub Pages (when deployed)
+
+            ### Usage Examples
+            ```bash
+            REPEAT 4 [FORWARD 100 RIGHT 90]
+            ```
+            Draws a square.
+
+            ---
+            *Built from commit ${{ github.sha }}*
+          files: |
+            dist/*.tar.gz
+            dist/*.zip
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Summary
+        run: |
+          echo "✅ Release ${{ steps.version.outputs.VERSION }} created successfully!"
+          echo "📦 View at: https://github.com/${{ github.repository }}/releases/tag/${{ steps.version.outputs.VERSION }}"
