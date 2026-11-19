@@ -14,7 +14,7 @@
     y: 0,
     heading: 0,
     penDown: true,
-    penColor: { r: 25, g: 23, b: 18 },
+    penColor: { r: 0, g: 122, b: 255 },
     penSize: 2,
     visible: true,
     canvasWidth: 800,
@@ -101,8 +101,9 @@
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.restore();
     
-    // Re-draw background
-    ctx.fillStyle = '#F2EEE5';
+    // Dynamic Apple HIG canvas background
+    const isDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    ctx.fillStyle = isDark ? '#1C1C1E' : '#FFFFFF';
     ctx.fillRect(-TurtleState.canvasWidth/2, -TurtleState.canvasHeight/2, TurtleState.canvasWidth, TurtleState.canvasHeight);
   }
 
@@ -550,6 +551,12 @@
     window.addEventListener('resize', () => {
       resizeCanvas();
     });
+
+    if (window.matchMedia) {
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+        redraw();
+      });
+    }
 
     // Focus input on load
     commandInput.focus();

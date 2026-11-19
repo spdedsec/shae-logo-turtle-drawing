@@ -3,53 +3,56 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="SHAE Logo Turtle Drawing - Interactive turtle graphics with Logo-inspired commands">
-  <title>SHAE Logo Turtle Drawing</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;700&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <meta name="description" content="Logo Turtle Drawing - Apple HIG turtle graphics studio with Logo commands">
+  <meta name="color-scheme" content="light dark">
+  <title>Logo Turtle Drawing</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div class="app-container">
-    <header class="app-header">
+    <header class="app-header" role="banner">
       <div class="header-left">
-        <h1 class="app-title">SHAE Logo Turtle</h1>
-        <span class="app-subtitle">Turtle Graphics Engine</span>
+        <div class="app-icon" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="12 2 19 21 12 17 5 21 12 2"></polygon>
+          </svg>
+        </div>
+        <h1 class="app-title">Logo Turtle</h1>
+        <span class="app-subtitle">Graphics Studio</span>
       </div>
       <div class="header-right">
-        <button id="clearBtn" class="btn btn-danger" title="Clear canvas (Ctrl+L)">Clear</button>
-        <button id="exportBtn" class="btn btn-primary" title="Export as PNG (Ctrl+E)">Export PNG</button>
+        <button id="clearBtn" class="btn btn-danger" title="Clear canvas (Ctrl+L)" aria-label="Clear canvas">Clear</button>
+        <button id="exportBtn" class="btn btn-primary" title="Export as PNG (Ctrl+E)" aria-label="Export drawing as PNG">Export PNG</button>
       </div>
     </header>
 
-    <main class="app-main">
+    <main class="app-main" role="main">
       <div class="canvas-wrapper">
         <canvas id="turtleCanvas" width="800" height="600" aria-label="Turtle drawing canvas"></canvas>
         <div id="turtleCursor" class="turtle-cursor" aria-hidden="true">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M12 2L15 8H9L12 2Z"/>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2L15 8H9L12 2Z" fill="currentColor"/>
             <path d="M5 12H19M12 5V19"/>
           </svg>
         </div>
       </div>
 
-      <aside class="command-panel">
-        <div class="panel-section">
+      <aside class="command-panel" aria-label="Control panel">
+        <section class="panel-section">
           <h2 class="panel-title">Command Input</h2>
           <div class="input-group">
             <input 
               type="text" 
               id="commandInput" 
               class="command-input" 
-              placeholder="FORWARD 100, RIGHT 90, REPEAT 4 [FORWARD 100 RIGHT 90]..."
+              placeholder="FORWARD 100, RIGHT 90, REPEAT 4 [FD 100 RT 90]..."
               autocomplete="off"
               spellcheck="false"
               aria-label="Logo command input"
             >
-            <button id="runBtn" class="btn btn-primary">Run</button>
+            <button id="runBtn" class="btn btn-primary" aria-label="Execute command">Run</button>
           </div>
-          <div class="quick-commands" role="group" aria-label="Quick commands">
+          <div class="quick-commands" role="group" aria-label="Quick preset commands">
             <button class="quick-btn" data-cmd="FORWARD 100">FD 100</button>
             <button class="quick-btn" data-cmd="RIGHT 90">RT 90</button>
             <button class="quick-btn" data-cmd="LEFT 90">LT 90</button>
@@ -57,84 +60,84 @@
             <button class="quick-btn" data-cmd="PENDOWN">PD</button>
             <button class="quick-btn" data-cmd="HOME">HOME</button>
           </div>
-        </div>
+        </section>
 
-        <div class="panel-section">
+        <section class="panel-section">
           <h2 class="panel-title">Command Reference</h2>
           <div class="command-ref">
             <details open>
               <summary>Movement</summary>
               <ul>
-                <li><code>FORWARD n</code> / <code>FD n</code> — Move forward n units</li>
-                <li><code>BACK n</code> / <code>BK n</code> — Move backward n units</li>
-                <li><code>RIGHT deg</code> / <code>RT deg</code> — Turn right deg degrees</li>
-                <li><code>LEFT deg</code> / <code>LT deg</code> — Turn left deg degrees</li>
-                <li><code>SETXY x y</code> — Set absolute position</li>
-                <li><code>SETHEADING deg</code> / <code>SETH deg</code> — Set heading</li>
+                <li><code>FORWARD n</code> / <code>FD n</code> &mdash; Move forward n units</li>
+                <li><code>BACK n</code> / <code>BK n</code> &mdash; Move backward n units</li>
+                <li><code>RIGHT deg</code> / <code>RT deg</code> &mdash; Turn right deg degrees</li>
+                <li><code>LEFT deg</code> / <code>LT deg</code> &mdash; Turn left deg degrees</li>
+                <li><code>SETXY x y</code> &mdash; Set absolute position</li>
+                <li><code>SETHEADING deg</code> / <code>SETH deg</code> &mdash; Set heading</li>
               </ul>
             </details>
             <details>
               <summary>Pen Control</summary>
               <ul>
-                <li><code>PENUP</code> / <code>PU</code> — Lift pen</li>
-                <li><code>PENDOWN</code> / <code>PD</code> — Lower pen</li>
-                <li><code>PENCOLOR r g b</code> — Set pen color (0-255)</li>
-                <li><code>PENSIZE n</code> — Set pen width</li>
+                <li><code>PENUP</code> / <code>PU</code> &mdash; Lift pen</li>
+                <li><code>PENDOWN</code> / <code>PD</code> &mdash; Lower pen</li>
+                <li><code>PENCOLOR r g b</code> &mdash; Set pen color (0-255)</li>
+                <li><code>PENSIZE n</code> &mdash; Set pen width</li>
               </ul>
             </details>
             <details>
               <summary>Control Flow</summary>
               <ul>
-                <li><code>REPEAT n [commands]</code> — Repeat commands n times</li>
-                <li><code>IF condition [commands]</code> — Conditional execution</li>
+                <li><code>REPEAT n [commands]</code> &mdash; Repeat commands n times</li>
+                <li><code>IF condition [commands]</code> &mdash; Conditional execution</li>
               </ul>
             </details>
             <details>
-              <summary>State</summary>
+              <summary>State &amp; Screen</summary>
               <ul>
-                <li><code>HOME</code> — Return to origin, heading 0</li>
-                <li><code>CLEARSCREEN</code> / <code>CS</code> — Clear canvas</li>
-                <li><code>SHOWTURTLE</code> / <code>ST</code> — Show turtle</li>
-                <li><code>HIDETURTLE</code> / <code>HT</code> — Hide turtle</li>
+                <li><code>HOME</code> &mdash; Return to origin, heading 0</li>
+                <li><code>CLEARSCREEN</code> / <code>CS</code> &mdash; Clear canvas</li>
+                <li><code>SHOWTURTLE</code> / <code>ST</code> &mdash; Show turtle</li>
+                <li><code>HIDETURTLE</code> / <code>HT</code> &mdash; Hide turtle</li>
               </ul>
             </details>
           </div>
-        </div>
+        </section>
 
-        <div class="panel-section">
+        <section class="panel-section">
           <h2 class="panel-title">Turtle State</h2>
           <div class="state-display">
             <div class="state-row">
-              <span class="state-label">Position:</span>
+              <span class="state-label">Position</span>
               <span id="posDisplay" class="state-value">0, 0</span>
             </div>
             <div class="state-row">
-              <span class="state-label">Heading:</span>
-              <span id="headingDisplay" class="state-value">0°</span>
+              <span class="state-label">Heading</span>
+              <span id="headingDisplay" class="state-value">0&deg;</span>
             </div>
             <div class="state-row">
-              <span class="state-label">Pen:</span>
+              <span class="state-label">Pen</span>
               <span id="penDisplay" class="state-value">DOWN</span>
             </div>
             <div class="state-row">
-              <span class="state-label">Color:</span>
-              <span id="colorDisplay" class="state-value"><span class="color-swatch" style="background: rgb(25,23,18)"></span>Ink</span>
+              <span class="state-label">Color</span>
+              <span id="colorDisplay" class="state-value"><span class="color-swatch" style="background: rgb(0,122,255)"></span>Blue</span>
             </div>
             <div class="state-row">
-              <span class="state-label">Size:</span>
+              <span class="state-label">Size</span>
               <span id="sizeDisplay" class="state-value">2</span>
             </div>
           </div>
-        </div>
+        </section>
 
-        <div class="panel-section">
+        <section class="panel-section">
           <h2 class="panel-title">History</h2>
           <div id="historyList" class="history-list" aria-live="polite"></div>
-        </div>
+        </section>
       </aside>
     </main>
 
-    <footer class="app-footer">
+    <footer class="app-footer" role="contentinfo">
       <div class="footer-left">
         <span class="shortcut">/</span> Focus input &nbsp;
         <span class="shortcut">Ctrl+L</span> Clear &nbsp;
@@ -142,7 +145,7 @@
         <span class="shortcut">Enter</span> Run
       </div>
       <div class="footer-right">
-        <a href="https://github.com/spdedsec/shae-logo-turtle-drawing" target="_blank" rel="noopener">View Source</a>
+        <a href="https://github.com/spdedsec/shae-logo-turtle-drawing" target="_blank" rel="noopener">GitHub</a>
       </div>
     </footer>
   </div>

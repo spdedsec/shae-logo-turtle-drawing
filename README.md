@@ -1,24 +1,22 @@
-# SHAE Logo Turtle Drawing
+# Logo Turtle Drawing
 
-Interactive Logo-inspired turtle graphics environment. Write Logo commands to create drawings, explore geometry, and learn programming concepts.
+Interactive Logo-inspired turtle graphics environment crafted with Apple Human Interface Guidelines (HIG). Write Logo commands to create drawings, explore geometry, and learn programming concepts.
 
 ## Features
 
 - **Full Logo Interpreter** — FORWARD, BACK, LEFT, RIGHT, REPEAT, IF, pen control, color, loops
+- **Apple HIG Design** — Cupertino aesthetic, San Francisco typography, light/dark mode support
 - **Real-time Canvas** — 60fps rendering with turtle cursor visualization
 - **Command History** — Persistent history with error reporting
 - **Keyboard Shortcuts** — `/` focus input, `Ctrl+L` clear, `Ctrl+E` export PNG
 - **Export** — Download drawings as PNG
-- **Responsive Design** — Works on desktop and mobile
-- **Accessibility** — WCAG AA compliant, keyboard navigable, screen reader support
+- **Responsive Design** — Works seamlessly across desktop, iPad, and iPhone
+- **Accessibility** — Full ARIA support, touch targets ≥ 44pt, visible focus rings, reduced-motion support
 
 ## Quick Start
 
 ```bash
-# Development server
-npx serve src
-
-# Or with Python
+# Serve static files locally
 python3 -m http.server 8080 -d src
 ```
 
@@ -58,33 +56,22 @@ REPEAT 36 [FORWARD 100 RIGHT 170]
 REPEAT 6 [REPEAT 4 [FORWARD 50 RIGHT 90] RIGHT 60]
 
 # Colorful pattern
-PENCOLOR 179 52 27
+PENCOLOR 0 122 255
 REPEAT 12 [FORWARD 150 RIGHT 150 PENUP FORWARD 20 PENDOWN]
 ```
 
-## Deploy to Vercel
-
-```bash
-# Install Vercel CLI
-npm i -g vercel
-
-# Deploy
-vercel --prod src
-```
-
-Or connect the repository to Vercel for automatic deployments.
-
 ## Design System
 
-Follows the [SHAE Field Manual](https://github.com/spdedsec/shae-site):
-- Warm paper `#F2EEE5` background
-- Near-black ink `#191712` text
-- Oxide red `#B3341B` accent
-- Zero border radius, 1px hairline borders
-- Archivo display, Instrument Sans body, JetBrains Mono code
-- 140-240ms transitions, reduced-motion support
-- WCAG AA contrast, 44px touch targets
+Engineered strictly following the [Apple Human Interface Guidelines](https://developer.apple.com/design/human-interface-guidelines/):
+- **Typography:** San Francisco (`-apple-system`, `BlinkMacSystemFont`, `SF Pro Text`, `SF Pro Display`)
+- **System Colors:** Apple dynamic system colors (`UIColor.systemBackground`, `UIColor.label`, `UIColor.systemBlue` `#007AFF`, `UIColor.systemRed` `#FF3B30`, `UIColor.systemGreen` `#34C759`)
+- **Light/Dark Mode:** Full native support via `color-scheme: light dark` and `@media (prefers-color-scheme: dark)`
+- **8pt Grid:** Consistent spacing increments (8, 16, 24, 32, 48px)
+- **Corner Radii:** 8pt, 12pt, 16pt, and pill buttons
+- **Elevation:** Apple 5-tier shadow elevation system (`.shadow-1` through `.shadow-5`)
+- **Motion:** Spring timing functions (`cubic-bezier(0.4, 0, 0.2, 1)`) with `prefers-reduced-motion` compliance
+- **Touch Targets:** Minimum 44pt touch targets with accessible high-contrast focus rings
 
 ## License
 
-MIT © 2026 SHAE
+MIT © 2026 spdedsec
