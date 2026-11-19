@@ -1,118 +1,90 @@
 # SHAE Logo Turtle Drawing
 
-<div align="center">
+Interactive Logo-inspired turtle graphics environment. Write Logo commands to create drawings, explore geometry, and learn programming concepts.
 
-```
-   ___  _   _    _    _____     ____    _    _     ____ 
-  / _ \| | | |  / \  | ____|   / ___|  / \  | |   / ___|
- | | | | |_| | / _ \ |  _|    | |     / _ \ | |  | |    
- | |_| |  _  |/ ___ \| |___   | |___ / ___ \| |__| |___ 
-  \___/|_| |_/_/   \_\_____|   \____/_/   \_\_____\____|
-                                                        
-      Logo Turtle Graphics — SHAE Edition
-```
+## Features
 
-[![Platform](https://img.shields.io/badge/Platform-Web%20Browser-blue.svg)](#)
-[![License](https://img.shields.io/badge/License-MIT-lightgrey.svg)](LICENSE)
-[![Design System](https://img.shields.io/badge/Design-SHAE%20Field%20Manual-orange.svg)](DESIGN.md)
+- **Full Logo Interpreter** — FORWARD, BACK, LEFT, RIGHT, REPEAT, IF, pen control, color, loops
+- **Real-time Canvas** — 60fps rendering with turtle cursor visualization
+- **Command History** — Persistent history with error reporting
+- **Keyboard Shortcuts** — `/` focus input, `Ctrl+L` clear, `Ctrl+E` export PNG
+- **Export** — Download drawings as PNG
+- **Responsive Design** — Works on desktop and mobile
+- **Accessibility** — WCAG AA compliant, keyboard navigable, screen reader support
 
-</div>
-
----
-
-## Overview
-
-An interactive Logo turtle graphics drawing app. Enter turtle commands and watch the turtle draw on an HTML5 canvas with Apple-like SHAE design:
-
-- Warm paper background (#F2EEE5), ink lines (#191712), oxide accents (#B3341B)
-- Flat design: 0px radius, 1px borders, border-defined cards
-- Typography: Archivo / Instrument Sans / JetBrains Mono
-- Motion: 140–240ms state changes, reduced-motion fallbacks
-- Accessibility: WCAG AA contrast, keyboard navigation, oxide focus rings
-
----
-
-## Supported Commands
-
-| Command | Description |
-|---------|-------------|
-| `FORWARD n` | Move turtle forward n pixels |
-| `BACK n` | Move turtle backward n pixels |
-| `LEFT deg` | Turn turtle left by deg degrees |
-| `RIGHT deg` | Turn turtle right by deg degrees |
-| `PENUP` | Lift pen (move without drawing) |
-| `PENDOWN` | Lower pen (draw while moving) |
-| `HOME` | Return turtle to center, heading 0° |
-| `CLEAR` | Clear canvas, reset turtle to home |
-| `REPEAT n [commands]` | Execute commands n times |
-
-## Examples
-
-Press **Ctrl+Enter** to run your commands, or click **RUN**.
-
-```
-REPEAT 4 [FORWARD 100 RIGHT 90]
-```
-Draws a square.
-
-```
-REPEAT 36 [FORWARD 5 RIGHT 10]
-```
-Draws a spiral.
-
-```
-REPEAT 5 [FORWARD 150 RIGHT 144]
-```
-Draws a star.
-
----
-
-## State Display
-
-The app shows the turtle's current coordinates (X, Y), heading (degrees), pen state (UP/DOWN), and total distance traveled.
-
----
-
-## Installation
-
-### Browser / Desktop Web App
-
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/spdedsec/shae-logo-turtle-drawing.git
-   cd shae-logo-turtle-drawing
-   ```
-
-2. **Run locally:**
-   ```bash
-   make dev
-   # Opens at http://localhost:8080
-   ```
-
-3. **Or open directly:**
-   ```bash
-   # Open src/index.html in your browser
-   ./scripts/install.sh
-   ```
-
-### Design System
-
-This project follows the **SHAE Field Manual** design system. See [DESIGN.md](DESIGN.md) for full specifications.
-
----
-
-## Build & Release
+## Quick Start
 
 ```bash
-make build          # Create distribution in dist/
-make release        # Create .tar.gz and .zip archives
+# Development server
+npx serve src
+
+# Or with Python
+python3 -m http.server 8080 -d src
 ```
 
-Releases are published to GitHub via the `.github/workflows/release.yml` workflow.
+Then open http://localhost:8080
 
----
+## Commands
+
+| Command | Alias | Description |
+|---------|-------|-------------|
+| `FORWARD n` | `FD n` | Move forward n units |
+| `BACK n` | `BK n` | Move backward n units |
+| `RIGHT deg` | `RT deg` | Turn right |
+| `LEFT deg` | `LT deg` | Turn left |
+| `SETXY x y` | | Set absolute position |
+| `SETHEADING deg` | `SETH deg` | Set heading |
+| `HOME` | | Return to origin |
+| `PENUP` | `PU` | Lift pen |
+| `PENDOWN` | `PD` | Lower pen |
+| `PENCOLOR r g b` | `PC` | Set pen color (0-255) |
+| `PENSIZE n` | `PS` | Set pen width |
+| `CLEARSCREEN` | `CS` | Clear canvas |
+| `SHOWTURTLE` | `ST` | Show turtle cursor |
+| `HIDETURTLE` | `HT` | Hide turtle cursor |
+| `REPEAT n [cmds]` | | Repeat commands n times |
+| `IF cond [cmds]` | | Conditional execution |
+
+### Examples
+
+```logo
+# Square
+REPEAT 4 [FORWARD 100 RIGHT 90]
+
+# Spiral
+REPEAT 36 [FORWARD 100 RIGHT 170]
+
+# Nested polygons
+REPEAT 6 [REPEAT 4 [FORWARD 50 RIGHT 90] RIGHT 60]
+
+# Colorful pattern
+PENCOLOR 179 52 27
+REPEAT 12 [FORWARD 150 RIGHT 150 PENUP FORWARD 20 PENDOWN]
+```
+
+## Deploy to Vercel
+
+```bash
+# Install Vercel CLI
+npm i -g vercel
+
+# Deploy
+vercel --prod src
+```
+
+Or connect the repository to Vercel for automatic deployments.
+
+## Design System
+
+Follows the [SHAE Field Manual](https://github.com/spdedsec/shae-site):
+- Warm paper `#F2EEE5` background
+- Near-black ink `#191712` text
+- Oxide red `#B3341B` accent
+- Zero border radius, 1px hairline borders
+- Archivo display, Instrument Sans body, JetBrains Mono code
+- 140-240ms transitions, reduced-motion support
+- WCAG AA contrast, 44px touch targets
 
 ## License
 
-MIT © 2026 spdedsec <legendsatya7272@gmail.com>.  
-Developed under the **SHAE** language & systems architecture project.
+MIT © 2026 SHAE
